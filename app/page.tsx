@@ -11,20 +11,30 @@ export default function Home() {
   const [showOverlay, setShowOverlay] = useState(true); // Controls fade timing
 
   const checkOrientation = () => {
-    if (window.orientation === 90 || window.orientation === -90) {
-      setIsPortrait(false);
-      setTimeout(() => setShowOverlay(false), 500); // Wait for fade-out before hiding
-    } else {
-      setIsPortrait(true);
+    const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
+    setIsPortrait(isPortraitMode);
+  
+    if (isPortraitMode) {
       setShowOverlay(true); // Show overlay instantly for fade-in
+    } else {
+      setTimeout(() => setShowOverlay(false), 500); // Wait for fade-out before hiding
     }
   };
+  
 
   useEffect(() => {
-    checkOrientation();
-    window.addEventListener("orientationchange", checkOrientation);
-    return () => window.removeEventListener("orientationchange", checkOrientation);
+    checkOrientation(); // Check on mount
+  
+    const mediaQuery = window.matchMedia("(orientation: portrait)");
+    const handleChange = () => checkOrientation();
+  
+    mediaQuery.addEventListener("change", handleChange);
+  
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
   }, []);
+  
 
   return (
     <div className="h-screen w-full relative">
