@@ -60,6 +60,7 @@ export default function Home() {
           {/* Custom Image Button (Only on First Page) */}
           {page === 0 && (
             <button
+              onContextMenu={(e) => e.preventDefault()}
               onClick={() => setPage(1)}
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
@@ -105,7 +106,7 @@ export default function Home() {
               <img src="/buttom_gif.gif" alt="Top Right GIF" className="absolute top-0 right-1/4 w-40 rotate-90" style={{ transform: "translateX(90px) rotate(90deg)" }} />
 
               <a href="https://www.youtube.com/watch?v=FJdpUSpq9vw" target="_blank" rel="noopener noreferrer" className="absolute left-1/2 transform -translate-x-1/2" style={{ top: "40%" }}>
-                <img src="/cake.png" alt="Cake" className="w-[300px] md:w-[300px] lg:w-[300px]" />
+                <img src="/cake.png" alt="Cake" className="w-[300px] md:w-[300px] lg:w-[350px]" />
               </a>
             </>
           )}
