@@ -25,13 +25,20 @@ export default function Home() {
   useEffect(() => {
     checkOrientation(); // Check on mount
   
+    // Listen for orientation changes
     const mediaQuery = window.matchMedia("(orientation: portrait)");
     const handleChange = () => checkOrientation();
-  
     mediaQuery.addEventListener("change", handleChange);
+  
+    // Prevent long press globally
+    const preventLongPress = (e: TouchEvent) => {
+      e.preventDefault(); // Stops long press behavior
+    };
+    document.addEventListener("touchstart", preventLongPress, { passive: false });
   
     return () => {
       mediaQuery.removeEventListener("change", handleChange);
+      document.removeEventListener("touchstart", preventLongPress); // Cleanup
     };
   }, []);
   
