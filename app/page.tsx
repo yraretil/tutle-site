@@ -1,101 +1,106 @@
-import Image from "next/image";
+"use client";
+import { useState, useEffect } from "react";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [page, setPage] = useState(0);
+  const [hover, setHover] = useState(false);
+  const pages = ["/1.png", "/2.png", "/third-page.png"];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  // Track if in portrait mode
+  const [isPortrait, setIsPortrait] = useState(true);
+  const [showOverlay, setShowOverlay] = useState(true); // Controls fade timing
+
+  const checkOrientation = () => {
+    if (window.orientation === 90 || window.orientation === -90) {
+      setIsPortrait(false);
+      setTimeout(() => setShowOverlay(false), 500); // Wait for fade-out before hiding
+    } else {
+      setIsPortrait(true);
+      setShowOverlay(true); // Show overlay instantly for fade-in
+    }
+  };
+
+  useEffect(() => {
+    checkOrientation();
+    window.addEventListener("orientationchange", checkOrientation);
+    return () => window.removeEventListener("orientationchange", checkOrientation);
+  }, []);
+
+  return (
+    <div className="h-screen w-full relative">
+      {/* Background Image for Current Page */}
+      <div
+        className="absolute inset-0 bg-cover bg-center transition-all duration-100"
+        style={{ backgroundImage: `url(${pages[page]})` }}
+      ></div>
+
+      {/* Fade-In & Fade-Out Portrait Overlay */}
+      <div
+        className={`absolute inset-0 flex items-center justify-center bg-black transition-opacity duration-500 ${
+          isPortrait ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        {showOverlay && (
+          <img src="/rotate.png" alt="Rotate to continue" className="w-full h-full object-cover" />
+        )}
+      </div>
+
+      {!isPortrait && (
+        <>
+          {/* Custom Image Button (Only on First Page) */}
+          {page === 0 && (
+            <button
+              onClick={() => setPage(1)}
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+              onTouchStart={() => setHover(true)}
+              onTouchEnd={() => setHover(false)}
+              className="absolute bottom-10 right-10"
+            >
+              <img src={hover ? "/button1.gif" : "/button1.png"} alt="Start" className="w-16 auto" />
+            </button>
+          )}
+
+          {/* Navigation Buttons */}
+          {page > 0 && (
+            <button
+              onClick={() => setPage(0)}
+              className="absolute top-5 left-5 px-4 py-2 bg-white text-black font-bold rounded-lg shadow-lg"
+            >
+              Home
+            </button>
+          )}
+
+          {page > 0 && (
+            <button
+              onClick={() => setPage(page - 1)}
+              className="absolute bottom-10 left-10 px-6 py-3 bg-white text-black font-bold rounded-lg shadow-lg"
+            >
+              Previous
+            </button>
+          )}
+
+          {page > 0 && page < pages.length - 1 && (
+            <button
+              onClick={() => setPage(page + 1)}
+              className="absolute bottom-10 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-white text-black font-bold rounded-lg shadow-lg"
+            >
+              Next Page
+            </button>
+          )}
+
+          {page === 1 && (
+            <>
+              <img src="/buttom_gif.gif" alt="Top Left GIF" className="absolute top-0 left-1/4 w-40 rotate-990" style={{ transform: "translateX(-95px) rotate(270deg)" }} />
+              <img src="/buttom_gif.gif" alt="Top Right GIF" className="absolute top-0 right-1/4 w-40 rotate-90" style={{ transform: "translateX(90px) rotate(90deg)" }} />
+
+              <a href="https://www.youtube.com/watch?v=FJdpUSpq9vw" target="_blank" rel="noopener noreferrer" className="absolute left-1/2 transform -translate-x-1/2" style={{ top: "40%" }}>
+                <img src="/cake.png" alt="Cake" className="w-[300px] md:w-[300px] lg:w-[300px]" />
+              </a>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }
