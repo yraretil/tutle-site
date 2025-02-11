@@ -13,35 +13,27 @@ export default function Home() {
   const checkOrientation = () => {
     const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
     setIsPortrait(isPortraitMode);
-  
+
     if (isPortraitMode) {
       setShowOverlay(true); // Show overlay instantly for fade-in
     } else {
       setTimeout(() => setShowOverlay(false), 500); // Wait for fade-out before hiding
     }
   };
-  
 
   useEffect(() => {
     checkOrientation(); // Check on mount
-  
+
     // Listen for orientation changes
     const mediaQuery = window.matchMedia("(orientation: portrait)");
     const handleChange = () => checkOrientation();
     mediaQuery.addEventListener("change", handleChange);
-  
-    // Prevent long press globally
-    const preventLongPress = (e: TouchEvent) => {
-      e.preventDefault(); // Stops long press behavior
-    };
-    document.addEventListener("touchstart", preventLongPress, { passive: false });
-  
+
+    // Cleanup
     return () => {
       mediaQuery.removeEventListener("change", handleChange);
-      document.removeEventListener("touchstart", preventLongPress); // Cleanup
     };
   }, []);
-  
 
   return (
     <div className="h-screen w-full relative">
@@ -72,7 +64,10 @@ export default function Home() {
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
               onTouchStart={() => setHover(true)}
-              onTouchEnd={() => setHover(false)}
+              onTouchEnd={() => {
+                setHover(false);
+                setPage(1); // Fix: Ensures navigation happens after touch
+              }}
               className="absolute bottom-10 right-10"
             >
               <img src={hover ? "/button1.gif" : "/button1.png"} alt="Start" className="w-16 auto" />
