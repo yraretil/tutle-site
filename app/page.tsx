@@ -15,10 +15,10 @@ export default function Home() {
       {/* Start Button */}
       <button
         onContextMenu={(e) => e.preventDefault()}
-        onClick={() => router.push("/page1")}
-        className="absolute bottom-10 right-10"
+        onClick={() => router.push("/home")}
+        className="absolute bottom-0 right-10"
       >
-        <img src="/button1.gif" alt="Start" className="w-16 auto" />
+        <img src="/button1.gif" alt="Start" className="w-16 auto" style={{ transform: "translateX(-30px) translateY(20px) rotate(270deg)" }}/>
       </button>
     </div>
   );
