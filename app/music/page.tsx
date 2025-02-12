@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
-import { Play, Pause, SkipBack, SkipForward, Volume2 } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward,} from "lucide-react";
 
 export default function MusicPlayer() {
   const [showImage, setShowImage] = useState(false);
@@ -30,17 +30,17 @@ export default function MusicPlayer() {
 
   // Stop vinyl when music ends
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.addEventListener("ended", () => setIsPlaying(false));
+    const audio = audioRef.current;
+    if (audio) {
+      audio.addEventListener("ended", () => setIsPlaying(false));
     }
     return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener("ended", () =>
-          setIsPlaying(false)
-        );
+      if (audio) {
+        audio.removeEventListener("ended", () => setIsPlaying(false));
       }
     };
   }, []);
+  
 
   const togglePlay = () => {
     if (isPlaying) {
