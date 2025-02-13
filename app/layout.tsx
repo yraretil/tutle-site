@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import Head from "next/head";  // Import Head component from next/head
 import "./globals.css";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -25,14 +24,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   
     return () => mediaQuery.removeEventListener("change", checkOrientation);
   }, []);
+  
 
   return (
-    <>
-      {/* Use next/head to modify the head of the page */}
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      </Head>
-      
+    <html lang="en">
       <body className="h-screen w-full relative bg-black">
         {/* Smooth Fade for Overlay */}
         <div
@@ -45,7 +40,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {!isPortrait && children}
       </body>
-    </>
+    </html>
   );
 }
-
