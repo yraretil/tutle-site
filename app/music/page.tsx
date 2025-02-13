@@ -47,7 +47,7 @@ export default function MusicPlayer() {
       audioRef.current?.pause();
     } else {
       audioRef.current?.play();
-      setTimeout(() => setShowImage(true), 180000); // Show PNG after 15s
+      setTimeout(() => setShowImage(true), 180000); // Show PNG after 3mins
     }
     setIsPlaying(!isPlaying);
   };
@@ -111,13 +111,13 @@ export default function MusicPlayer() {
         onClick={() => router.push("/home")}
         className="absolute top-0 left-10"
       >
-        <img src="/home.png" alt="Start" className="w-16 auto" style={{ transform: "translateX(-20px) translateY(0px)" }}/>
+        <img src="/home2.png" alt="Start" className="w-16 auto" style={{ transform: "translateX(-20px) translateY(0px)" }}/>
       </button>
 
       <img 
         src="/thank.png" 
         className={`absolute transition-opacity duration-1000 ${showImage ? 'opacity-100' : 'opacity-0'}`}
-        style={{ width: "500px", height: "75px", transform: "translateY(300px)" }}
+        style={{ width: "400px", height: "100px", transform: "translateY(300px)" }}
         alt="End Transition"
       />
     </div>

@@ -7,10 +7,8 @@ export default function Home() {
   return (
     <div className="h-screen w-full relative">
       {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-all duration-300"
-        style={{ backgroundImage: `url(/1.png)` }}
-      ></div>
+      <div className="w-screen h-screen bg-[length:100%_100%] bg-no-repeat bg-center" 
+     style={{ backgroundImage: "url('/1.png')" }}></div>
 
       {/* Start Button */}
       <button

@@ -7,10 +7,8 @@ export default function Page1() {
   return (
     <div className="h-screen w-full relative">
       {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(/2.png)` }}
-      ></div>
+      <div className="w-screen h-screen bg-[length:100%_100%] bg-no-repeat bg-center" 
+     style={{ backgroundImage: "url('/2.png')" }}></div>
 
       {/* GIFs */}
       <img
