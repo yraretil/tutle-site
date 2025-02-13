@@ -1,4 +1,5 @@
 "use client";
+import { Analytics } from '@vercel/analytics/next';
 import { useState, useEffect } from "react";
 import "./globals.css";
 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="h-screen w-full relative bg-black">
         {/* Smooth Fade for Overlay */}
+        <Analytics/>
         <div
           className={`absolute inset-0 flex items-center justify-center bg-black transition-opacity duration-700 ${
             showOverlay ? "opacity-100" : "opacity-0 pointer-events-none"
