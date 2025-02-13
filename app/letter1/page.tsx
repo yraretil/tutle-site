@@ -12,9 +12,9 @@ export default function Letter1() {
       <a
         onClick={() => router.push("/letter2")}
         className="absolute left-1/2 top-1/2"
-        style={{ transform: "translateX(200px) translateY(100px)" }}
+        style={{ transform: "translateX(200px) translateY(70px)" }}
       >
-        <img src="/dummy.png" alt="heh" className="w-[200px] md:w-[200px] lg:w-[500px]" />
+        <img src="/dummy.png" alt="heh" className="w-[200px] md:w-[200px] lg:w-[300px]" />
       </a>
     </div>
   );
