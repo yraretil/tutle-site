@@ -1,4 +1,5 @@
 "use client";
+import Head from 'next/head';
 import { useState, useEffect } from "react";
 import "./globals.css";
 
@@ -27,10 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   
 
   return (
-    <html lang="en">
-      <head>
+    <>
+      <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      </head>
+      </Head>
       <body className="h-screen w-full relative bg-black">
         {/* Smooth Fade for Overlay */}
         <div
@@ -43,6 +44,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {!isPortrait && children}
       </body>
-    </html>
+    </>
   );
 }
